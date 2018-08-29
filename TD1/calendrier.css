@@ -1,0 +1,13 @@
+.sondage-doodle {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-and-time-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.date-and-time {
+    flex: auto;
+}
