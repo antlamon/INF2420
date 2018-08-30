@@ -1,29 +1,48 @@
 .sondage-doodle {
-    display: flex;
-    flex-direction: column;
-}
-
-.date-and-time-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.date-and-time {
-    flex: auto;
-}
-
-.month{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
     text-align: center;
 }
 
-.day-of-the-week{
-    text-align: center;
+.new-participant {
+    background: #91C8E9;
+    vertical-align: middle;
 }
 
-.date{
-    text-align: center;
+.colored-number {
+    color: #3b97d3;
+    font-weight: 700;
+    font-size: 25px;
 }
 
-.time{
-    text-align: center;
+.not-ticked-box {
+    background: #fcede9;
+    margin: 2px 3px;
+}
+
+.participants, .participant {
+    text-align: left;
+}
+
+input {
+    border-radius: 8px;
+    height: 35px;
+}
+
+img {
+    margin: auto;
+}
+
+.month {
+    font-size: 16px;
+}
+
+.date {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.day-of-the-week {
+    color: #5d6e79;
+    font-weight: 500;
 }
