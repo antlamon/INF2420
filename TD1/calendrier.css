@@ -6,7 +6,10 @@
 
 .new-participant {
     background: #91C8E9;
-    vertical-align: middle;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .colored-number {
@@ -20,17 +23,20 @@
     margin: 2px 3px;
 }
 
-.participants, .participant {
+.participants{
     text-align: left;
+}
+
+.participant {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 input {
     border-radius: 8px;
     height: 35px;
-}
-
-img {
-    margin: auto;
 }
 
 .month {
