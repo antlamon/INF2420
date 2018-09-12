@@ -2,6 +2,17 @@
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
     text-align: center;
+    width: 1092px;
+    height: 591px;
+    background: white;
+}
+
+.new-participant, .nb-participant, .date-and-time, .new-participant, .not-ticked-box, .ticked-box, .participant, .participant-header, .check, .sondage-doodle {
+    border: 1px solid #d4dade;
+}
+
+body {
+    background: #91C8E9;
 }
 
 .new-participant {
@@ -10,6 +21,12 @@
     grid-template-columns: auto auto;
     align-items: center;
     justify-content: space-around;
+    padding-right: 8px;
+}
+
+.nb-participant {
+    align-items: center;
+    padding: 8px 0px;
 }
 
 .colored-number {
@@ -20,11 +37,20 @@
 
 .not-ticked-box {
     background: #fcede9;
-    margin: 2px 3px;
 }
 
-.participants{
+.participant-header{
     text-align: left;
+    justify-content: space-around;
+    padding-top: 13px;
+}
+
+.participants {
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
+    padding-left: 16px;
+    color: #8696a2;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .participant {
@@ -34,21 +60,46 @@
     justify-content: flex-start;
 }
 
+.avatar {
+    padding: 0px 16px;
+}
+
 input {
     border-radius: 8px;
-    height: 35px;
+    height: 40px;
+}
+
+.date-and-time {
+    padding: 16px 0px;
 }
 
 .month {
+    display: block;
     font-size: 16px;
+    line-height: inherit;
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
 
 .date {
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    margin: 4px 0;
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
 
 .day-of-the-week {
     color: #5d6e79;
-    font-weight: 500;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-style: normal;
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+.time {
+    text-align: center;
+    padding: 2px 0px;
 }
