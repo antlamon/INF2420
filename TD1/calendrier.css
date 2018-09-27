@@ -105,7 +105,7 @@
     margin-bottom: 16px;
 }
 
- .time {
+ .start-time {
     text-align: center;
     padding: 2px 0px;
 }
@@ -142,5 +142,9 @@
     width: 18px;
     height: 18px;
     color: transparent;
+}
+
+.selected-option {
+    background: #ebf7d4;
 }
 

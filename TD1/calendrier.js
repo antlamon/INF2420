@@ -1,11 +1,15 @@
-﻿function check(value){
-    document.getElementById("check" + value).innerHTML = `<img src="Images/tick-check.png" alt="check box" onclick="uncheck(${value})"/>`;
-    document.getElementById("nb" + value).style.background = "#ebf7d4";
-    document.getElementById("dat" + value).style.background = "#ebf7d4";
+﻿function check(img){
+    img.src = "Images/tick-check.png";
+    img.setAttribute("onclick", "uncheck(event.srcElement)");
+    const value = img.id[5];
+    document.getElementById("nb" + value).classList.add("selected-option");
+    document.getElementById("dat" + value).classList.add("selected-option");
 };
 
-function uncheck(value){
-    document.getElementById("check" + value).innerHTML = `<img src="Images/check.png" alt="check box" onclick="check(${value})"/>`;
-    document.getElementById("nb" + value).style.background = "white";
-    document.getElementById("dat" + value).style.background = "white";
+function uncheck(img){
+    img.src = "Images/check.png";
+    img.setAttribute("onclick", "check(event.srcElement)");
+    const value = img.id[5];
+    document.getElementById("nb" + value).classList.remove("selected-option");
+    document.getElementById("dat" + value).classList.remove("selected-option");
 };

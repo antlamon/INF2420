@@ -20,64 +20,82 @@
             <div class="month">Aug</div>
             <div class="date">27</div>
             <div class="day-of-the-week">MON</div>
-            <div class="time">10:00</div>
-            <div class="time">12:00</div>
+            <div class="time">
+                <div class="start-time">10:00</div>
+                <div class="end-time">12:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat2">
             <div class="month">Aug</div>
             <div class="date">27</div>
             <div class="day-of-the-week">MON</div>
-            <div class="time">14:00</div>
-            <div class="time">16:00</div>
+            <div class="time">
+                <div class="start-time">14:00</div>
+                <div class="end-time">16:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat3">
             <div class="month">Aug</div>
             <div class="date">28</div>
             <div class="day-of-the-week">TUE</div>
-            <div class="time">10:00</div>
-            <div class="time">12:00</div>
+            <div class="time">
+                <div class="start-time">10:00</div>
+                <div class="end-time">12:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat4">
             <div class="month">Aug</div>
             <div class="date">28</div>
             <div class="day-of-the-week">TUE</div>
-            <div class="time">14:00</div>
-            <div class="time">16:00</div>
+            <div class="time">
+                <div class="start-time">14:00</div>
+                <div class="end-time">16:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat5">
             <div class="month">Aug</div>
             <div class="date">29</div>
             <div class="day-of-the-week">WED</div>
-            <div class="time">08:00</div>
-            <div class="time">10:00</div>
+            <div class="time">
+                <div class="start-time">08:00</div>
+                <div class="end-time">10:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat6">
             <div class="month">Aug</div>
             <div class="date">29</div>
             <div class="day-of-the-week">WED</div>
-            <div class="time">14:00</div>
-            <div class="time">16:00</div>
+            <div class="time">
+                <div class="start-time">14:00</div>
+                <div class="end-time">16:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat7">
             <div class="month">Aug</div>
             <div class="date">30</div>
             <div class="day-of-the-week">THU</div>
-            <div class="time">10:00</div>
-            <div class="time">12:00</div>
+            <div class="time">
+                <div class="start-time">10:00</div>
+                <div class="end-time">12:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat8">
             <div class="month">Aug</div>
             <div class="date">31</div>
             <div class="day-of-the-week">FRI</div>
-            <div class="time">10:00</div>
-            <div class="time">12:00</div>
+            <div class="time">
+                <div class="start-time">10:00</div>
+                <div class="end-time">12:00</div>
+            </div>
         </div>
         <div class="date-and-time" id="dat9">
             <div class="month">Aug</div>
             <div class="date">31</div>
             <div class="day-of-the-week">FRI</div>
-            <div class="time">14:00</div>
-            <div class="time">16:00</div>
+            <div class="time">
+                <div class="start-time">14:00</div>
+                <div class="end-time">16:00</div>   
+            </div>
         </div>
 
         <div class="participant-header"><span class=participants>5 participants</span></div>
@@ -122,15 +140,15 @@
             <img class="avatar" src="Images/particip1.png" alt="blue avatar" />
             <input type="text" placeholder="Enter your name" />
         </div>
-        <div class="check" id="check1"><img src="Images/check.png" alt="check box" onclick="check(1)"/></div>
-        <div class="check" id="check2"><img src="Images/check.png" alt="check box" onclick="check(2)"/></div>
-        <div class="check" id="check3"><img src="Images/check.png" alt="check box" onclick="check(3)"/></div>
-        <div class="check" id="check4"><img src="Images/check.png" alt="check box" onclick="check(4)"/></div>
-        <div class="check" id="check5"><img src="Images/check.png" alt="check box" onclick="check(5)"/></div>
-        <div class="check" id="check6"><img src="Images/check.png" alt="check box" onclick="check(6)"/></div>
-        <div class="check" id="check7"><img src="Images/check.png" alt="check box" onclick="check(7)"/></div>
-        <div class="check" id="check8"><img src="Images/check.png" alt="check box" onclick="check(8)"/></div>
-        <div class="check" id="check9"><img src="Images/check.png" alt="check box" onclick="check(9)"/></div>
+        <div class="check"><img src="Images/check.png" id="check1" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check2" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check3" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check4" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check5" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check6" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check7" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check8" alt="check box" onclick="check(event.srcElement)"/></div>
+        <div class="check"><img src="Images/check.png" id="check9" alt="check box" onclick="check(event.srcElement)"/></div>
 
         <div class="participant">
             <img class="avatar" src="Images/particip2.png" alt="grey avatar" />
