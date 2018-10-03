@@ -4,6 +4,7 @@
     text-align: center;
     background: white;
     width: 1095px;
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
  .new-participant, .nb-participant, .date-and-time, .not-ticked-box, .ticked-box, .participant, .participant-header, .check, .sondage-doodle {
     border-style: solid;
@@ -43,8 +44,6 @@
 }
 
 .ticked-box {
-    align-items: center;
-    justify-content: center;
     background: #cdeaa1;
 }
 
@@ -65,7 +64,6 @@
 }
 
  .participants {
-    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
     padding-left: 16px;
     color: #8696a2;
     font-weight: 600;
@@ -122,8 +120,11 @@
     padding: 2px 0px;
 }
 
-.check, .ticked-box{
+.check, .ticked-box, .not-ticked-box{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .check img, .ticked-box img {
@@ -160,14 +161,43 @@
     background: #ebf7d4;
 }
 
-/* The actual popup */
-.ticked-box .popuptext, .not-ticked-box .popuptext {
-    visibility: visible;
+#popup {
+    background: white;
     width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
     border-radius: 6px;
-    padding: 8px 0;
+    border: #d4dade groove 2px;
+    padding: 8px 0px;
     position: absolute;
+    top: -180px;
+}
+
+.popup-date-time {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 8px;
+    border-bottom: #d4dade 2px solid;
+}
+
+.popup-date {
+    align-content: center;
+}
+
+.popup-time {
+    align-content: center;
+    padding: 0px 16px;
+}
+
+.popup-voter {
+    display: block;
+}
+
+.popup-voter-option {
+    color: #5d6e79;
+}
+
+.popup-vote {
+    text-align: start;
+    padding: 5px 10px;
 }
