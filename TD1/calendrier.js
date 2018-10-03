@@ -13,3 +13,21 @@ function uncheck(img){
     document.getElementById("nb" + value).classList.remove("selected-option");
     document.getElementById("dat" + value).classList.remove("selected-option");
 };
+
+let timeout;
+function handlePopper(event){
+    console.log(event);
+    if (event.type == "mouseover"){
+        timeout = setTimeout(showPopper, 1000, event);
+    }
+    else{
+        clearTimeout(timeout);
+    }
+};
+
+function showPopper(event){
+    console.log("ShowingPopper")
+    const id = event.path[event.path.length - 6].id;
+    //document.getElementById(id).innerHTML += '<span class="popuptext" id="myPopup">A Simple Popup!</span>';
+    console.log(id);
+}

@@ -42,6 +42,18 @@
     font-size: 25px;
 }
 
+.ticked-box {
+    align-items: center;
+    justify-content: center;
+    background: #cdeaa1;
+}
+
+.ticked-box svg {
+    color: #87c627;
+    height: 30px;
+    pointer-events: none;
+}
+
  .not-ticked-box {
     background: #fcede9;
 }
@@ -148,3 +160,14 @@
     background: #ebf7d4;
 }
 
+/* The actual popup */
+.ticked-box .popuptext, .not-ticked-box .popuptext {
+    visibility: visible;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+}
