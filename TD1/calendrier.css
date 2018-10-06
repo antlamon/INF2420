@@ -18,6 +18,9 @@
 .new-participant, .not-ticked-box, .ticked-box, .participant, .check {
     border-width: 0px 1px;
 }
+.box, .check {
+    width:90px;
+}
 
  .new-participant {
     background: #91C8E9;
@@ -120,11 +123,12 @@
     padding: 2px 0px;
 }
 
-.check, .ticked-box, .not-ticked-box{
+.check, .box{
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    height: 70px;
 }
 
 .check img, .ticked-box img {
