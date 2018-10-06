@@ -3,8 +3,9 @@
     grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
     text-align: center;
     background: white;
-    width: 1095px;
+    width: 75%;
     font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
+    margin: 0 auto;
 }
  .new-participant, .nb-participant, .date-and-time, .not-ticked-box, .ticked-box, .participant, .participant-header, .check, .sondage-doodle {
     border-style: solid;
@@ -17,9 +18,6 @@
 
 .new-participant, .not-ticked-box, .ticked-box, .participant, .check {
     border-width: 0px 1px;
-}
-.box, .check {
-    width:90px;
 }
 
  .new-participant {
@@ -136,6 +134,10 @@
     height: 100%;
 }
 
+.check:hover {
+    cursor: pointer;
+}
+
 .nom-participant {
     text-align: left;
 }
@@ -149,6 +151,7 @@
 
 .pen-container:hover {
     background: #e7f5fb;
+    cursor: pointer;
 }
 
 .pen-container:hover .pen {
