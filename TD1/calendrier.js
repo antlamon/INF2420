@@ -59,7 +59,6 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     })
     this.doodleModel.participants[rowIndex] = {...this.doodleModel.currentParticipant, disponibility: [...this.doodleModel.currentParticipant.disponibility], status:1};
     this.doodleModel.currentParticipant = null;
-    debugger
     this.doodleView.renderCalendar(this.doodleModel);
 }
  
@@ -150,7 +149,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     var dayOfTheWeek = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
     var buffer ='';
-
+    buffer += `<div class="sondage-doodle" id="sondage">`;
     buffer += doodleModel.dateTimes.reduce(function(accumulator, date, index){
         return accumulator + `<div class="date-and-time${doodleModel.currentParticipant && doodleModel.currentParticipant.disponibility[index] ? " selected-option":""}" id="dat-${index}">
                                 <div class="month">${months[date.dateTime.getMonth()]}</div>
@@ -204,10 +203,10 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                 </div>`);
         }
     },'')
-
+    buffer += `</div>`;
     if(doodleModel.currentParticipant) {
         var buttonValue = IsCurrentParticipantInParticipants(doodleModel)? "Annuler":"Mettre à jour";
-        buffer += ` </div><button class="finish-button">${buttonValue}</button></div>`
+        buffer += `<button class="finish-button">${buttonValue}</button>`
     }
     this.element.innerHTML = buffer;
     var boxes = this.element.querySelectorAll(".box");
@@ -278,7 +277,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
  (async function() {
     var model = new DoodleModel();
     await model.initialize();
-    var targetElement = document.getElementById('sondage');
+    var targetElement = document.getElementById('main-container');
     var view = new DoodleView(targetElement);
  
     var controller = new DoodleController(view,model);
