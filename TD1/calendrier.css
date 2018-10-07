@@ -216,6 +216,16 @@
 }
 
 .finish-button {
+    margin-left: auto;
+    margin-top: 4px;
+}
+
+.finish-button svg {
+    height: 20px;
+    color: #87c627;
+}
+
+.finish-button button{
     background-color: #3798D4;
     border: none;
     color: white;
@@ -226,12 +236,11 @@
     cursor: pointer;
     border-radius: 15px;
     box-shadow: 0 9px #999;
-    margin-left: auto;
-    margin-top: 4px;
+    margin-left: 10px;
 }
-.finish-button:hover {background-color: #61aedd}
+.finish-button button:hover {background-color: #61aedd}
 
-.finish-button:active {
+.finish-button button:active {
   background-color: #61aedd;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
