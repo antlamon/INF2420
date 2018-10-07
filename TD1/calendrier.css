@@ -44,7 +44,7 @@ body {
     border-width: 0px 1px;
 }
 
- .new-participant {
+.new-participant {
     background: #91C8E9;
     display: grid;
     grid-template-columns: auto auto;
@@ -52,8 +52,10 @@ body {
     justify-content: left;
 }
 
- .nb-participant {
+.nb-participant {
+    display: flex;
     align-items: center;
+    justify-content: center;
     padding: 8px 0px;
 }
 
