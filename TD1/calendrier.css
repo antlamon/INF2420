@@ -121,7 +121,6 @@ body {
     display: block;
     font-size: 16px;
     line-height: inherit;
-    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
 
  .date {
@@ -129,7 +128,6 @@ body {
     font-weight: 500;
     -webkit-font-smoothing: antialiased;
     margin: 4px 0;
-    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
 
  .day-of-the-week {
@@ -137,7 +135,6 @@ body {
     text-transform: uppercase;
     font-weight: 600;
     font-style: normal;
-    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
     -webkit-font-smoothing: antialiased;
     letter-spacing: 1px;
     margin-bottom: 16px;
@@ -267,21 +264,16 @@ body {
     outline: none;
 }
 
-.tabs {
+.tabs{
+    display: flex;
+    justify-content: center;
+    padding: 12px 0px;
     position: sticky;
     top: 0;
     background: white;
 }
 
-.tabs ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 12px 0px;
-    margin: 0;
-}
-
-.tabs li {
+.tabs div {
     padding: 0px 16px;
     cursor: pointer;
 }
