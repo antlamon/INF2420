@@ -11,6 +11,7 @@ var DoodleController = function DoodleController(doodleView, doodleModel) {
     this.doodleView.toggleDisponibility = this.toggleDisponibility.bind(this);
     this.doodleView.changeCurrentParticipant = this.changeCurrentParticipant.bind(this);
     this.doodleView.changeCurrentName = this.changeCurrentName.bind(this);
+    this.doodleView.updateCurrentParticipant = this.updateCurrentParticipant.bind(this);
     this.doodleView.renderCalendar(this.doodleModel);
  };
  
@@ -32,6 +33,7 @@ DoodleController.prototype.toggleDisponibility = function toggleDisponibility(ev
     this.doodleModel.currentParticipant.disponibility[colIndex] = !this.doodleModel.currentParticipant.disponibility[colIndex];
     this.doodleView.renderCalendar(this.doodleModel);
 }
+
 DoodleController.prototype.changeCurrentParticipant = function changeCurrentParticipant(event) {
     const [, rowIndex] = event.currentTarget.id.split('-');
     this.doodleModel.participants = this.doodleModel.participants.map((p, index) => { 
@@ -44,6 +46,20 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
         return p;
     })
     this.doodleModel.currentParticipant = {...this.doodleModel.participants[rowIndex], disponibility: [...this.doodleModel.participants[rowIndex].disponibility] , status:0};
+    this.doodleView.renderCalendar(this.doodleModel);
+}
+
+DoodleController.prototype.updateCurrentParticipant = function updateCurrentParticipant(event) {
+    
+    var rowIndex;
+    this.doodleModel.participants.forEach( (p, index) => {
+        if(!p.status) {
+            rowIndex = index;
+        }
+    })
+    this.doodleModel.participants[rowIndex] = {...this.doodleModel.currentParticipant, disponibility: [...this.doodleModel.currentParticipant.disponibility], status:1};
+    this.doodleModel.currentParticipant = null;
+    debugger
     this.doodleView.renderCalendar(this.doodleModel);
 }
  
@@ -104,10 +120,30 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
     this.toggleDisponibility = null;
     this.changeCurrentParticipant = null;
     this.changeCurrentName = null;
+    this.updateCurrentParticipant = null;
  };
  
  function withLeadingZero(number) {
     return `${number < 10 ? '0':''}${number}`
+ }
+
+ function IsCurrentParticipantInParticipants(doodleModel) {
+    var isSame = true;
+    doodleModel.participants.forEach((p) => {
+        if(!p.status) {
+            if( doodleModel.currentParticipant && p.name == doodleModel.currentParticipant.name) {
+                p.disponibility.forEach((dispo, index) => { 
+                    if(dispo != doodleModel.currentParticipant.disponibility[index]) {
+                        isSame = false;
+                    }
+                })
+            }
+            else
+                isSame = false;
+        }
+    });
+
+    return isSame;
  }
 
  DoodleView.prototype.renderCalendar = function renderCalendar(doodleModel) {
@@ -138,7 +174,7 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
     },`<div class="participant-header"><span class=participants>${doodleModel.participants.length} participants</span></div>`)
 
     buffer += doodleModel.participants.reduce(function(accumulator, participant, index) {
-        if(!participant.status)
+        if(!participant.status && doodleModel.currentParticipant)
         {
             return accumulator + doodleModel.currentParticipant.disponibility.reduce(function(row, dispo, indexDate) {
                          if(dispo) {
@@ -169,7 +205,10 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
         }
     },'')
 
-
+    if(doodleModel.currentParticipant) {
+        var buttonValue = IsCurrentParticipantInParticipants(doodleModel)? "Annuler":"Mettre à jour";
+        buffer += ` </div><button class="finish-button">${buttonValue}</button></div>`
+    }
     this.element.innerHTML = buffer;
     var boxes = this.element.querySelectorAll(".box");
     var context = this;
@@ -186,9 +225,13 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
     pens.forEach(function(pen){
         pen.addEventListener("click", context.changeCurrentParticipant);
     })
-    this.element.querySelector("input").addEventListener("keyup", context.changeCurrentName);
+    if(doodleModel.currentParticipant){
+        this.element.querySelector("input").addEventListener("keyup", context.changeCurrentName);
+    }
 
+    this.element.querySelector(".finish-button").addEventListener("click", context.updateCurrentParticipant);
  };
+
  DoodleView.prototype.renderTable = function renderTable(viewModelData) {
     this.element.innerHTML = '';
    
