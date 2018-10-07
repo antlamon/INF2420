@@ -1,7 +1,14 @@
+body {
+    background: #3798d4;
+}
+
 .main-container {
     margin: 0 auto;
     width: 75%;
     font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
+    background: white;
+    padding: 10px 10px;
+    border-radius: 8px;
 }
 
 .grid-container {
@@ -10,9 +17,20 @@
 
 .sondage-doodle {
     display: grid;
-    grid-template-columns: 280px auto auto auto auto auto auto auto auto auto;
     text-align: center;
 }
+
+#calendar {
+    grid-auto-flow: column;
+    border: solid #d4dade;
+    border-width:  1px 1px 0px 0px;
+}
+
+#calendar > div{
+    border: solid #d4dade;
+    border-width: 0px 0px 1px 1px;
+}
+
  .new-participant, .nb-participant, .date-and-time, .not-ticked-box, .ticked-box, .participant, .participant-header, .check, .sondage-doodle {
     border-style: solid;
     border-color: #d4dade
@@ -52,6 +70,9 @@
 
 .ticked-box {
     background: #cdeaa1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ticked-box svg {
@@ -217,7 +238,7 @@
 
 .finish-button {
     margin-left: auto;
-    margin-top: 4px;
+    padding: 10px 0px;
 }
 
 .finish-button svg {
@@ -235,22 +256,23 @@
     font-size: 16px;
     cursor: pointer;
     border-radius: 15px;
-    box-shadow: 0 9px #999;
     margin-left: 10px;
 }
-.finish-button button:hover {background-color: #61aedd}
 
-.finish-button button:active {
-  background-color: #61aedd;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+.finish-button button:hover {
+    background-color: #61aedd
+}
+
+.finish-button button:focus {
+    outline: none;
 }
 
 .tabs ul {
     display: flex;
     justify-content: center;
     list-style: none;
-    padding: 0;
+    padding: 12px 0px;
+    margin: 0;
 }
 
 .tabs li {
@@ -262,6 +284,7 @@
     font-weight: 500;
     color: #434e57;
     font-size: large;
+    pointer-events: none;
 }
 
 .active-tab {

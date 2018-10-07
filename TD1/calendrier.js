@@ -2,9 +2,9 @@
 var DoodleController = function DoodleController(doodleView, doodleModel) {
     this.doodleView = doodleView;
     this.doodleModel = doodleModel;
- };
+};
  
- DoodleController.prototype.initialize = function initialize() {
+DoodleController.prototype.initialize = function initialize() {
     this.doodleView.onClickShowCalendar = this.onClickShowCalendar.bind(this);
     this.doodleView.onClickShowTable = this.onClickShowTable.bind(this);
     this.doodleView.handlePopup = this.handlePopup.bind(this);
@@ -12,17 +12,24 @@ var DoodleController = function DoodleController(doodleView, doodleModel) {
     this.doodleView.changeCurrentParticipant = this.changeCurrentParticipant.bind(this);
     this.doodleView.changeCurrentName = this.changeCurrentName.bind(this);
     this.doodleView.updateCurrentParticipant = this.updateCurrentParticipant.bind(this);
-    this.doodleView.renderCalendar(this.doodleModel);
- };
+    this.doodleView.tab = "Table";
+    this.doodleView.render(this.doodleModel);
+};
  
- DoodleController.prototype.onClickShowCalendar = function onClickShowCalendar(event) {
-    this.doodleView.renderCalendar(this.doodleModel);
- };
+DoodleController.prototype.onClickShowCalendar = function onClickShowCalendar(event) {
+    this.doodleView.tab = "Calendar";
+    event.srcElement.classList.add("active-tab");
+    document.getElementById("table-tab").classList.remove("active-tab");
+    this.doodleView.render(this.doodleModel);
+};
  
  
- DoodleController.prototype.onClickShowTable = function onClickShowCalendar(event) {
-    this.doodleView.renderTable(this.doodleModel);
- };
+DoodleController.prototype.onClickShowTable = function onClickShowCalendar(event) {
+    this.doodleView.tab = "Table";
+    event.srcElement.classList.add("active-tab");
+    document.getElementById("calendar-tab").classList.remove("active-tab");
+    this.doodleView.render(this.doodleModel);
+};
  
  DoodleController.prototype.changeCurrentName = function changeCurrentName(event) {
     this.doodleModel.currentParticipant.name = event.currentTarget.value;
@@ -31,7 +38,7 @@ var DoodleController = function DoodleController(doodleView, doodleModel) {
 DoodleController.prototype.toggleDisponibility = function toggleDisponibility(event) {
     const [, rowIndex, colIndex] = event.srcElement.id.split('-');
     this.doodleModel.currentParticipant.disponibility[colIndex] = !this.doodleModel.currentParticipant.disponibility[colIndex];
-    this.doodleView.renderCalendar(this.doodleModel);
+    this.doodleView.render(this.doodleModel);
 }
 
 DoodleController.prototype.changeCurrentParticipant = function changeCurrentParticipant(event) {
@@ -46,7 +53,7 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
         return p;
     })
     this.doodleModel.currentParticipant = {...this.doodleModel.participants[rowIndex], disponibility: [...this.doodleModel.participants[rowIndex].disponibility] , status:0};
-    this.doodleView.renderCalendar(this.doodleModel);
+    this.doodleView.render(this.doodleModel);
 }
 
 DoodleController.prototype.updateCurrentParticipant = function updateCurrentParticipant(event) {
@@ -59,7 +66,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     })
     this.doodleModel.participants[rowIndex] = {...this.doodleModel.currentParticipant, disponibility: [...this.doodleModel.currentParticipant.disponibility], status:1};
     this.doodleModel.currentParticipant = null;
-    this.doodleView.renderCalendar(this.doodleModel);
+    this.doodleView.render(this.doodleModel);
 }
  
  let timeout;
@@ -120,7 +127,19 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     this.changeCurrentParticipant = null;
     this.changeCurrentName = null;
     this.updateCurrentParticipant = null;
+    this.tab = null;
+    this.months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    this.dayOfTheWeek = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
  };
+
+ DoodleView.prototype.render = function render(doodleModel) {
+    if(this.tab == "Table") {
+        this.renderTable(doodleModel);
+    }
+    else {
+        this.renderCalendar(doodleModel);
+    }
+ }
  
  function withLeadingZero(number) {
     return `${number < 10 ? '0':''}${number}`
@@ -145,22 +164,22 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     return isSame;
  }
 
- DoodleView.prototype.renderCalendar = function renderCalendar(doodleModel) {
-    var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    var dayOfTheWeek = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+ DoodleView.prototype.renderTable = function renderTable(doodleModel) {
     var buffer ='';
-    buffer += `<div class="sondage-doodle" id="sondage">`;
+    var context = this;
+
+    buffer += `<div class="sondage-doodle" id="sondage" style="grid-template-columns: 280px repeat(${doodleModel.dateTimes.length}, auto)">`;
     buffer += doodleModel.dateTimes.reduce(function(accumulator, date, index){
         return accumulator + `<div class="date-and-time${doodleModel.currentParticipant && doodleModel.currentParticipant.disponibility[index] ? " selected-option":""}" id="dat-${index}">
-                                <div class="month">${months[date.dateTime.getMonth()]}</div>
+                                <div class="month">${context.months[date.dateTime.getMonth()]}</div>
                                 <div class="date">${date.dateTime.getDate()}</div>
-                                <div class="day-of-the-week">${dayOfTheWeek[date.dateTime.getDay()]}</div>
+                                <div class="day-of-the-week">${context.dayOfTheWeek[date.dateTime.getDay()]}</div>
                                 <div class="time">
                                     <div class="start-time">${date.dateTime.getHours()+':'+ withLeadingZero(date.dateTime.getMinutes())}</div>
                                     <div class="end-time">${`${date.dateTime.getHours()+Math.floor(date.duration/60)}:${withLeadingZero(date.dateTime.getMinutes()+date.duration%60)}`}</div>
                                 </div>
                             </div>`
-    }, '<div class="date-and-time"></div>')
+    }, '<div class="date-and-time"></div>');
     buffer += doodleModel.dateTimes.reduce(function(accumulator, date, index){
         return accumulator + `<div class="nb-participant${doodleModel.currentParticipant && doodleModel.currentParticipant.disponibility[index] ? " selected-option":""}" id="nb-${index}">
                                   <svg aria-hidden="true" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
@@ -170,7 +189,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                                         },0)
                                     }</span>
                               </div>`
-    },`<div class="participant-header"><span class=participants>${doodleModel.participants.length} participants</span></div>`)
+    },`<div class="participant-header"><span class=participants>${doodleModel.participants.length} participants</span></div>`);
 
     buffer += doodleModel.participants.reduce(function(accumulator, participant, index) {
         if(!participant.status && doodleModel.currentParticipant)
@@ -217,7 +236,6 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     }
     this.element.innerHTML = buffer;
     var boxes = this.element.querySelectorAll(".box");
-    var context = this;
     boxes.forEach(function(box){
         box.addEventListener("mouseover", context.handlePopup);
         box.addEventListener("mouseout", context.handlePopup);
@@ -233,16 +251,52 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     })
     if(doodleModel.currentParticipant){
         this.element.querySelector("input").addEventListener("keyup", context.changeCurrentName);
+        this.element.querySelector(".finish-button").addEventListener("click", context.updateCurrentParticipant);
     }
-
-    this.element.querySelector(".finish-button").addEventListener("click", context.updateCurrentParticipant);
+    document.querySelector("#calendar-tab").addEventListener("click", this.onClickShowCalendar);
  };
 
- DoodleView.prototype.renderTable = function renderTable(viewModelData) {
-    this.element.innerHTML = '';
+ DoodleView.prototype.renderCalendar = function renderCalendar(doodleModel) {
+    var buffer ='';
+
+    buffer += `<div class="sondage-doodle" id="calendar" style="grid-template-rows: repeat(${24 * 2 + 1}, auto)">`;
+    buffer += `<div class="date-and-time"></div>`
+    for(let i = 0; i < 24; ++i) {
+        buffer += ` <div class="date-and-time">${withLeadingZero(i)}h00</div>
+                    <div class="date-and-time"></div>`;
+    }
+    let index = 0;
+    while(index < doodleModel.dateTimes.length){
+        let currentDate = doodleModel.dateTimes[index].dateTime.getDay();
+        buffer += ` <div class="date-and-time">
+                        <div class="month">${this.months[doodleModel.dateTimes[index].dateTime.getMonth()]}</div>
+                        <div class="date">${doodleModel.dateTimes[index].dateTime.getDate()}</div>
+                        <div class="day-of-the-week">${this.dayOfTheWeek[doodleModel.dateTimes[index].dateTime.getDay()]}</div>
+                    </div>`;
+        for(let i = 0; i < 48; ++i) {
+            if (index < doodleModel.dateTimes.length && currentDate == doodleModel.dateTimes[index].dateTime.getDay() && i / 2 == doodleModel.dateTimes[index].dateTime.getHours()) {
+                const duration = Math.floor(doodleModel.dateTimes[index].duration / 30);
+                buffer += ` <div class="ticked-box" style="grid-row: span ${duration} / span 1">
+                                <svg aria-hidden="true" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
+                                <span>
+                                    ${doodleModel.participants.reduce(function(count, participant){
+                                    return count + participant.disponibility[index];
+                                    },0)}
+                                </span>
+                            </div>`;
+                i += duration - 1;
+                ++index;
+            }
+            else {
+                buffer += ` <div></div>`;
+            }
+        }
+    }
+    buffer += `</div>`;
+    this.element.innerHTML = buffer;
    
     // Wire up click events, and let the controller handle events
- 
+    document.querySelector("#table-tab").addEventListener("click", this.onClickShowTable);
  };
  
  //Model
