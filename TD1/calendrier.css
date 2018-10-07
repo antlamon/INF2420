@@ -2,6 +2,9 @@
     margin: 0 auto;
     width: 75%;
     font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
+}
+
+.grid-container {
     display: grid;
 }
 
@@ -224,6 +227,7 @@
     border-radius: 15px;
     box-shadow: 0 9px #999;
     margin-left: auto;
+    margin-top: 4px;
 }
 .finish-button:hover {background-color: #61aedd}
 
@@ -231,5 +235,27 @@
   background-color: #61aedd;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
+}
+
+.tabs ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.tabs li {
+    padding: 0px 16px;
+    cursor: pointer;
+}
+
+.tabs span {
+    font-weight: 500;
+    color: #434e57;
+    font-size: large;
+}
+
+.active-tab {
+    border-bottom: 2px solid #434e57;
 }
 

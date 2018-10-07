@@ -277,7 +277,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
  (async function() {
     var model = new DoodleModel();
     await model.initialize();
-    var targetElement = document.getElementById('main-container');
+    var targetElement = document.getElementById('grid-container');
     var view = new DoodleView(targetElement);
  
     var controller = new DoodleController(view,model);
