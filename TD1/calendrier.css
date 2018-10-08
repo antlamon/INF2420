@@ -9,6 +9,7 @@ body {
     background: white;
     padding: 10px 10px;
     border-radius: 8px;
+    min-width: 800px;
 }
 
 .grid-container {

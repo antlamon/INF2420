@@ -4,6 +4,8 @@ var DoodleController = function DoodleController(doodleView, doodleModel) {
     this.doodleModel = doodleModel;
 };
  
+
+//Initialise tous les événements et affiche la vue table.
 DoodleController.prototype.initialize = function initialize() {
     this.doodleView.onClickShowCalendar = this.onClickShowCalendar.bind(this);
     this.doodleView.onClickShowTable = this.onClickShowTable.bind(this);
@@ -15,7 +17,8 @@ DoodleController.prototype.initialize = function initialize() {
     this.doodleView.tab = "Table";
     this.doodleView.render(this.doodleModel);
 };
- 
+
+//Évènement pour changer la vue à celle du calendrier.
 DoodleController.prototype.onClickShowCalendar = function onClickShowCalendar(event) {
     this.doodleView.tab = "Calendar";
     event.srcElement.classList.add("active-tab");
@@ -23,24 +26,27 @@ DoodleController.prototype.onClickShowCalendar = function onClickShowCalendar(ev
     this.doodleView.render(this.doodleModel);
 };
  
- 
+//Évènement pour changer la vue à celle de la table.
 DoodleController.prototype.onClickShowTable = function onClickShowCalendar(event) {
     this.doodleView.tab = "Table";
     event.srcElement.classList.add("active-tab");
     document.getElementById("calendar-tab").classList.remove("active-tab");
     this.doodleView.render(this.doodleModel);
 };
- 
- DoodleController.prototype.changeCurrentName = function changeCurrentName(event) {
+
+//Évènement pour changer le nom du participant sélectionné dans le modèle.
+DoodleController.prototype.changeCurrentName = function changeCurrentName(event) {
     this.doodleModel.currentParticipant.name = event.currentTarget.value;
  }
 
+//Évènement pour changer la disponibilité d'un participant pour une certaine date.
 DoodleController.prototype.toggleDisponibility = function toggleDisponibility(event) {
     const [, rowIndex, colIndex] = event.srcElement.id.split('-');
     this.doodleModel.currentParticipant.disponibility[colIndex] = !this.doodleModel.currentParticipant.disponibility[colIndex];
     this.doodleView.render(this.doodleModel);
 }
 
+//Évènement pour changer le participant sélectionné.
 DoodleController.prototype.changeCurrentParticipant = function changeCurrentParticipant(event) {
     const [, rowIndex] = event.currentTarget.id.split('-');
     this.doodleModel.participants = this.doodleModel.participants.map((p, index) => { 
@@ -56,6 +62,7 @@ DoodleController.prototype.changeCurrentParticipant = function changeCurrentPart
     this.doodleView.render(this.doodleModel);
 }
 
+//Évènement pour changer les valeurs du participant sélectionné dans la liste des participants.
 DoodleController.prototype.updateCurrentParticipant = function updateCurrentParticipant(event) {
     
     var rowIndex;
@@ -70,6 +77,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
 }
  
  let timeout;
+ //Évènement pour gérer le popup lorsqu'on met le curseur sur un évènement.
  DoodleController.prototype.handlePopup = function handlePopup(event) {
     if (event.type == "mouseover"){
         timeout = setTimeout(showPopup, 1000, event);
@@ -80,6 +88,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     }
  };
  
+ //Affiche le popup.
  function showPopup(event){
     
     const [, rowIndex, colIndex] = event.srcElement.id.split('-');
@@ -109,6 +118,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     event.srcElement.innerHTML += popup;
  }
  
+ //Cache le popup
  function hidePopup(event){
     let popup = document.getElementById("popup");
     if (popup != null){
@@ -132,6 +142,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     this.dayOfTheWeek = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
  };
 
+ //Affiche la vue dépendamment de quel fenêtre afficher.
  DoodleView.prototype.render = function render(doodleModel) {
     if(this.tab == "Table") {
         this.renderTable(doodleModel);
@@ -140,11 +151,12 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
         this.renderCalendar(doodleModel);
     }
  }
- 
+ //Permet d'afficher les minutes avec un zéro avant le premier nombre. (5:05)
  function withLeadingZero(number) {
     return `${number < 10 ? '0':''}${number}`
  }
 
+ //fonction qui permet de déterminer si le participant sélectionné à été modifié.
  function IsCurrentParticipantInParticipants(doodleModel) {
     var isSame = true;
     doodleModel.participants.forEach((p) => {
@@ -164,10 +176,12 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     return isSame;
  }
 
+ //Affiche la vue table et ajoute les évènements reliés à celui-ci.
  DoodleView.prototype.renderTable = function renderTable(doodleModel) {
     var buffer ='';
     var context = this;
 
+    //Dates :
     buffer += `<div class="sondage-doodle" id="sondage" style="grid-template-columns: 280px repeat(${doodleModel.dateTimes.length}, auto)">`;
     buffer += doodleModel.dateTimes.reduce(function(accumulator, date, index){
         return accumulator + `<div class="date-and-time${doodleModel.currentParticipant && doodleModel.currentParticipant.disponibility[index] ? " selected-option":""}" id="dat-${index}">
@@ -180,6 +194,8 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                                 </div>
                             </div>`
     }, '<div class="date-and-time"></div>');
+
+    //Nombre de participants disponible au dates
     buffer += doodleModel.dateTimes.reduce(function(accumulator, date, index){
         return accumulator + `<div class="nb-participant${doodleModel.currentParticipant && doodleModel.currentParticipant.disponibility[index] ? " selected-option":""}" id="nb-${index}">
                                   <svg aria-hidden="true" data-prefix="fas" data-icon="check" class="svg-inline--fa fa-check fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>
@@ -191,6 +207,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                               </div>`
     },`<div class="participant-header"><span class=participants>${doodleModel.participants.length} participants</span></div>`);
 
+    //Chaque participant avec leur disponibilité et aussi vue pour le participant sélectionné.
     buffer += doodleModel.participants.reduce(function(accumulator, participant, index) {
         if(!participant.status && doodleModel.currentParticipant)
         {
@@ -223,6 +240,8 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
         }
     },'')
     buffer += `</div>`;
+
+    //Bouton de finalisation du participant sélectionné.
     if(doodleModel.currentParticipant) {
         var buttonValue = IsCurrentParticipantInParticipants(doodleModel)? "Annuler":"Mettre à jour";
         var nbCheck = doodleModel.currentParticipant.disponibility.filter(Boolean).length;
@@ -235,6 +254,8 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                     </div>`;
     }
     this.element.innerHTML = buffer;
+
+    //Évènements :
     var boxes = this.element.querySelectorAll(".box");
     boxes.forEach(function(box){
         box.addEventListener("mouseover", context.handlePopup);
@@ -256,9 +277,11 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     document.querySelector("#calendar-tab").addEventListener("click", this.onClickShowCalendar);
  };
 
+//Affiche la vue calendrier et ajoute les évènements reliés à celui-ci.
  DoodleView.prototype.renderCalendar = function renderCalendar(doodleModel) {
     var buffer ='';
 
+    //Heures :
     buffer += `<div class="sondage-doodle" id="calendar" style="grid-template-rows: repeat(${24 * 2 + 1}, auto)">`;
     buffer += `<div class="date-and-time"></div>`
     for(let i = 0; i < 24; ++i) {
@@ -266,6 +289,8 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
                     <div class="date-and-time"></div>`;
     }
     let index = 0;
+
+    //Colonne des dates avec les disponibilités
     while(index < doodleModel.dateTimes.length){
         let currentDate = doodleModel.dateTimes[index].dateTime.getDay();
         buffer += ` <div class="date-and-time">
@@ -295,10 +320,11 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     buffer += `</div>`;
     this.element.innerHTML = buffer;
    
-    // Wire up click events, and let the controller handle events
+    //Évènements :
     document.querySelector("#table-tab").addEventListener("click", this.onClickShowTable);
  };
  
+
  //Model
  var DoodleModel = function DoodleModel() {
     this.participants = [];
@@ -306,6 +332,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
     this.currentParticipant;
  };
  
+ //Initialise les valeurs du modèle à l'aide du json.
  DoodleModel.prototype.initialize = async function initialize() {
 
     var response = await fetch("http://localhost:8080/cal-data.json");
@@ -331,10 +358,7 @@ DoodleController.prototype.updateCurrentParticipant = function updateCurrentPart
 
  };
  
- 
- 
- 
- //Entry Point :
+ //Point d'entré de l'application.
  (async function() {
     var model = new DoodleModel();
     await model.initialize();
