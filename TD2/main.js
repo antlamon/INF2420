@@ -1,6 +1,4 @@
 //EntryPoint
 (async function() {
-    console.log(wtf);
-    var wtf = "string";
-    //this.connectionHandler = new ConnectionHandler(`http://log2420-nginx.info.polymtl.ca`,)
+    this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet")
  })();
