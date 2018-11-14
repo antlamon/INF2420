@@ -1,0 +1,27 @@
+body {
+    background: lightgray;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+#header-option {
+    display: flex;
+}
+
+i {
+    padding: 0px 10px;
+    font-size: 28px;
+}
+
+.user-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 10px;
+}
+
