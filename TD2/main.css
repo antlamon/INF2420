@@ -9,7 +9,7 @@ body {
     padding: 30px 20px;
 }
 
-#header-option {
+.header-option {
     display: flex;
 }
 
@@ -18,10 +18,36 @@ i {
     font-size: 28px;
 }
 
-.user-option {
+#user-option {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-right: 10px;
+    padding-right: 5px;
 }
 
+#user {
+    color: green;
+}
+
+.container {
+    display: flex;
+    background: white;
+}
+
+.container-header {
+    background: teal;
+}
+
+.small-info-text, .info-text {
+    color: white;
+}
+
+.small-info-text {
+    padding: 10px 10px;
+    font-size: 18px;
+}
+
+.info-text {
+    padding: 15px 10px;
+    font-size: 28px;
+}
