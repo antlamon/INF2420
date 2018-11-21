@@ -1,5 +1,14 @@
+html {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     background: lightgray;
+    height: 100%;
+    margin: 0px 8px;
+    min-width: 1100px;
 }
 
 .header {
@@ -31,14 +40,16 @@ i {
 
 .container {
     display: flex;
+    flex: 1;
     background: white;
+    margin-bottom: 8px;
 }
 
-.container-header {
+.container-header, #like-button, #send-button {
     background: teal;
 }
 
-.small-info-text, .info-text {
+.small-info-text, .info-text, #like-button {
     color: white;
 }
 
@@ -50,4 +61,44 @@ i {
 .info-text {
     padding: 15px 10px;
     font-size: 28px;
+}
+
+#chat-container {
+    width: 65%;
+    border-right: 2px solid lightgray;
+    display: flex;
+    flex-direction: column;
+}
+
+#group-container {
+    flex: 1;
+}
+
+.available-group-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.group-options {
+    display: flex;
+    color: white;
+    padding: 15px 10px;
+}
+
+#conversation {
+    flex: 1;
+    overflow-y: auto;
+}
+
+#like-button {
+    display: flex;
+    align-items: center;
+}
+
+#message-input {
+    flex: 1;
+}
+
+.input-container {
+    display: flex;
 }
