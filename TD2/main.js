@@ -20,19 +20,18 @@
                             <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup : "Veuillez selectionner un groupe"}</div>
                         </div>`;
             if (polyChatModel.currentGroup != null) {
-            // conversation container
-            buffer +=   `<div id="conversation"></div>`
+                // conversation container
+                buffer +=   `<div class="scrollable-container" id="conversation"></div>`
 
-            // message input container
-            buffer +=   `<div class="input-container">
-                            <i class="far fa-thumbs-up" id="like-button"></i>
-                            <input id="message-input" name="message-input type="text" placeholder="Votre message ici"/>
-                            <div class="small-info-text" id="send-button">Envoyer</div>
-                        </div>`
+                // message input container
+                buffer +=   `<div class="input-container">
+                                <i class="far fa-thumbs-up" id="like-button"></i>
+                                <input id="message-input" name="message-input type="text" placeholder="Votre message ici"/>
+                                <div class="small-info-text" id="send-button">Envoyer</div>
+                            </div>`
             }
                             
             this.chatContainer.innerHTML = buffer;
-            this.refreshConversation(polyChatModel);
         }
         
         // Render the elements in the group container
@@ -49,8 +48,9 @@
                                 </div>
                             </div>
                         </div>`;
+            // groups list container
+            buffer +=   `<div class="scrollable-container" id="groups"></div>`;
                         
-            // group list
             this.groupContainer.innerHTML = buffer;
         }
         
@@ -60,6 +60,18 @@
 
         refreshConversation(polyChatModel) {
 
+        }
+
+        refreshGroups(polyChatModel) {
+            let groupsContainer = document.getElementById("groups");
+            let buffer = ``;
+            for(let i = 0; i < polyChatModel.channelList.length; ++i) {
+                buffer +=   `<div class="group ${i % 2 ? "lightgray-background" : "smoke-background"}">
+                                <i class="${polyChatModel.channelList[i].name == "Général" ? "fas fa-star" : "fa fa-plus"} ${polyChatModel.channelList[i].joinStatus ? "orange-icon" : "teal-icon"}"></i>
+                                <div class="group-text">${polyChatModel.channelList[i].name == "Général" ? "Géneral (défaut)" : polyChatModel.channelList[i].name}</div>
+                            </div>`;
+            }
+            groupsContainer.innerHTML = buffer;
         }
     }
     
@@ -73,6 +85,7 @@
             updateChannelList(list) {
              // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
              this.model.channelList = list;
+             this.view.refreshGroups(this.model);
             }
     }
 

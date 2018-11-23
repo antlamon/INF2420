@@ -73,6 +73,8 @@ i {
 
 #group-container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .available-group-header {
@@ -86,7 +88,7 @@ i {
     padding: 15px 10px;
 }
 
-#conversation {
+.scrollable-container {
     flex: 1;
     overflow-y: auto;
 }
@@ -102,4 +104,34 @@ i {
 
 .input-container {
     display: flex;
+}
+
+.group {
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.lightgray-background {
+    background: lightgray;
+}
+
+.smoke-background {
+    background: whitesmoke;
+}
+
+.group-text {
+    color: rgb(0, 119, 255);
+    padding: 10px 10px 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.teal-icon {
+    color: teal;
+}
+
+.orange-icon {
+    color: orangered;
 }
