@@ -8,6 +8,7 @@
          this.groupContainer = document.getElementById(`group-container`);
          this.groups = null;
          this.currentGroup = "null";
+
         }
         
         renderView() {
@@ -69,9 +70,20 @@
         }
     }
 
+    class PolyChatModel {
+         
+    }
         // EntryPoint
         (async function() {
             //this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
             let view = new PolyChatView();
+
             view.renderView();
+            
+            this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
+            view.currentUsername = `Guest2`;
+            this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
+            this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
          })();
+         
+         
