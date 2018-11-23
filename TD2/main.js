@@ -19,7 +19,7 @@
         
         // Render the elements in the chat container
         renderChat() {
-            var buffer = ``;
+            let buffer = ``;
             // chat header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Groupe actif:</div>
@@ -43,7 +43,7 @@
         
         // Render the elements in the group container
         renderGroups() {
-            var buffer = ``;
+            let buffer = ``;
             // group header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Liste des groupes:</div>
@@ -72,6 +72,6 @@
         // EntryPoint
         (async function() {
             //this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
-            var view = new PolyChatView();
+            let view = new PolyChatView();
             view.renderView();
          })();
