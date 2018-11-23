@@ -20,7 +20,7 @@
         
         // Render the elements in the chat container
         renderChat() {
-            var buffer = ``;
+            let buffer = ``;
             // chat header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Groupe actif:</div>
@@ -44,7 +44,7 @@
         
         // Render the elements in the group container
         renderGroups() {
-            var buffer = ``;
+            let buffer = ``;
             // group header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Liste des groupes:</div>
@@ -83,6 +83,10 @@
         // EntryPoint
         (async function() {
             let view = new PolyChatView();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 58e1e100d86376a89a70aacd0f96e66e65f8eff9
             view.renderView();
 
             let controller = new PolyChatController();
