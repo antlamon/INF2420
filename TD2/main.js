@@ -6,7 +6,6 @@
         }
         
         renderView(polyChatModel) {
-            this.changeUserName(polyChatModel);
             this.renderChat(polyChatModel);
             this.renderGroups(polyChatModel);
         }
@@ -54,7 +53,7 @@
             this.groupContainer.innerHTML = buffer;
         }
         
-        changeUserName(polyChatModel) {
+        changeUsername(polyChatModel) {
             this.usernameContainer.innerText = polyChatModel.user.username;
         }
 
@@ -76,17 +75,31 @@
     }
     
     class PolyChatController {
-            constructor(polyChatView, polyChatModel){
-            this.view = polyChatView;
-            this.model = polyChatModel;
-            this.view.renderView(this.model);
-            }
+        constructor(polyChatView, polyChatModel){
+                this.connectionHandler = null;
+                this.view = polyChatView;
+                this.model = polyChatModel;
+                this.view.renderView(this.model);
+                this.setUsername();
+                this.initializeConnectionHandler();
+        }
 
-            updateChannelList(list) {
+        setUsername() {
+            let username = prompt("Entrer un nom d'utilisateur", "");
+            this.model.user.username = username;
+            this.view.changeUsername(this.model);
+        }
+
+        updateChannelList(list) {
              // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
              this.model.channelList = list;
              this.view.refreshGroups(this.model);
-            }
+        }
+
+        initializeConnectionHandler() {
+            this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, this.model.user.username);
+            this.connectionHandler.subscribe("updateChannelsList", channelsObserver.bind(this));
+        }
     }
 
     class PolyChatModel {
@@ -104,9 +117,5 @@
     (async function() {
         let view = new PolyChatView();
         let model = new PolyChatModel();
-        let controller = new PolyChatController(view, model);
-
-        
-        this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, "VarCestLet");
-        this.connectionHandler.subscribe("updateChannelsList", channelsObserver.bind(controller));
+        new PolyChatController(view, model);
         })();
