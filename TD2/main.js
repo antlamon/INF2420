@@ -62,25 +62,27 @@
 
         }
     }
-
+    
     class PolyChatController {
-        constructor(polyChatView, polyChatModel) {
-            this.polyChatView = polyChatView;
-            this.polyChatModel = polyChatModel;
+            constructor(polyChatModel, polyChatView){
+            this.view = polyChatView;
+            this.model = polyChatModel;
             this.polyChatView.renderView(this.polyChatModel);
-        }
+            }
 
+            updateChannelList(list) {
+            
+            }
     }
 
     class PolyChatModel {
-         constructor() {
-            this.username = null;
-            this.currentGroup = null;
-         }
-
-         changeUserName(username) {
-             this.username = username;
-         }
+        constructor() {
+            this.user = {
+                username = "Guest",
+                connectedChannel = []
+            };
+            this.channelList = [];
+        }
     }
 
     // EntryPoint
@@ -91,9 +93,7 @@
         let controller = new PolyChatController(view, model);
 
         
-        // this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, "VarCestLet");
-        // view.currentUsername = `Guest2`;
-        // this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
-        // this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
+        this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, "VarCestLet");
+        this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
+        this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
         })();
-         
