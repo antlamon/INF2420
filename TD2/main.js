@@ -77,24 +77,30 @@
          }
 
          updateChannelList(list) {
-            
+             //Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
+            this.model.channelList = list;
          }
+    }
+    class PolyChatModel {
+        constructor() {
+            this.channelList = [];
+            this.user = {
+                username : `Guest`,
+                connectedChannel : []
+            };
+        }
     }
         // EntryPoint
         (async function() {
+            let model = new PolyChatModel();
             let view = new PolyChatView();
-<<<<<<< HEAD
-=======
-
->>>>>>> 58e1e100d86376a89a70aacd0f96e66e65f8eff9
             view.renderView();
 
-            let controller = new PolyChatController();
+            let controller = new PolyChatController(model, view);
             this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
             view.currentUsername = `Guest2`;
 
             this.connectionHandler.subscribe("updateChannelsList", channelsObserver.bind(controller));
-            this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
          })();
          
          
