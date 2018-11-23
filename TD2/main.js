@@ -70,17 +70,26 @@
         }
     }
 
-    class PolyChatModel {
-         
+    class PolyChatController {
+         constructor(polyChatModel, polyChatView){
+            this.view = polyChatView;
+            this.model = polyChatModel;
+         }
+
+         updateChannelList(list) {
+            
+         }
     }
         // EntryPoint
         (async function() {
-            var view = new PolyChatView();
+            let view = new PolyChatView();
             view.renderView();
-            
+
+            let controller = new PolyChatController();
             this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
             view.currentUsername = `Guest2`;
-            this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
+
+            this.connectionHandler.subscribe("updateChannelsList", channelsObserver.bind(controller));
             this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
          })();
          

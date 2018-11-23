@@ -12,13 +12,12 @@ class ConnectionHandler {
         ])
         this.webSocket.onmessage = function(message){
             let data = JSON.parse(message.data);
-            this.notify(data.eventType);
+            this.notify(data.eventType, data);
         }.bind(this);
     }
-    notify(event) {
+    notify(event, message) {
         this.observables.get(event).forEach(func => {
-            debugger
-            func();
+            func(message);
         });
     }
 
