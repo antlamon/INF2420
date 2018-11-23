@@ -55,7 +55,7 @@
         }
         
         changeUserName(polyChatModel) {
-            this.usernameContainer.innerText = polyChatModel.username;
+            this.usernameContainer.innerText = polyChatModel.user.username;
         }
 
         refreshConversation(polyChatModel) {
@@ -82,6 +82,7 @@
                 connectedChannel = []
             };
             this.channelList = [];
+            this.currentGroup = null;
         }
     }
 
@@ -89,7 +90,6 @@
     (async function() {
         let view = new PolyChatView();
         let model = new PolyChatModel();
-        model.changeUserName("Guest");
         let controller = new PolyChatController(view, model);
 
         
