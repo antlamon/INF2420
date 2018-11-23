@@ -1,32 +1,25 @@
  class PolyChatView {
      constructor() {
          this.usernameContainer = document.getElementById(`user`);
-         this.currentUsername = `Guest`; // à mettre dans le controller
          this.chatContainer = document.getElementById(`chat-container`);
-         this.chatHeader = null;
-         this.chat = null;
          this.groupContainer = document.getElementById(`group-container`);
-         this.groups = null;
-         this.currentGroup = "null";
-
         }
         
-        renderView() {
-            this.changeUserName();
-            this.renderChat();
-            this.renderGroups();
-            this.refreshConversation();
+        renderView(polyChatModel) {
+            this.changeUserName(polyChatModel);
+            this.renderChat(polyChatModel);
+            this.renderGroups(polyChatModel);
         }
         
         // Render the elements in the chat container
-        renderChat() {
+        renderChat(polyChatModel) {
             let buffer = ``;
             // chat header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Groupe actif:</div>
-                            <div class="info-text">${this.currentGroup != null ? this.currentGroup : "Veuillez selectionner un groupe"}</div>
+                            <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup : "Veuillez selectionner un groupe"}</div>
                         </div>`;
-            if (this.currentGroup != null) {
+            if (polyChatModel.currentGroup != null) {
             // conversation container
             buffer +=   `<div id="conversation"></div>`
 
@@ -39,11 +32,11 @@
             }
                             
             this.chatContainer.innerHTML = buffer;
-            this.refreshConversation();
+            this.refreshConversation(polyChatModel);
         }
         
         // Render the elements in the group container
-        renderGroups() {
+        renderGroups(polyChatModel) {
             let buffer = ``;
             // group header
             buffer +=   `<div class="container-header">
@@ -61,28 +54,46 @@
             this.groupContainer.innerHTML = buffer;
         }
         
-        changeUserName() {
-            this.usernameContainer.innerText = this.currentUsername;
+        changeUserName(polyChatModel) {
+            this.usernameContainer.innerText = polyChatModel.username;
         }
 
-        refreshConversation() {
+        refreshConversation(polyChatModel) {
 
         }
+    }
+
+    class PolyChatController {
+        constructor(polyChatView, polyChatModel) {
+            this.polyChatView = polyChatView;
+            this.polyChatModel = polyChatModel;
+            this.polyChatView.renderView(this.polyChatModel);
+        }
+
     }
 
     class PolyChatModel {
-         
-    }
-        // EntryPoint
-        (async function() {
-            let view = new PolyChatView();
+         constructor() {
+            this.username = null;
+            this.currentGroup = null;
+         }
 
-            view.renderView();
-            
-            this.connectionHandler = new ConnectionHandler(`ws://log2420-nginx.info.polymtl.ca/`, "VarCestLet");
-            view.currentUsername = `Guest2`;
-            this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
-            this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
-         })();
-         
+         changeUserName(username) {
+             this.username = username;
+         }
+    }
+
+    // EntryPoint
+    (async function() {
+        let view = new PolyChatView();
+        let model = new PolyChatModel();
+        model.changeUserName("Guest");
+        let controller = new PolyChatController(view, model);
+
+        
+        // this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, "VarCestLet");
+        // view.currentUsername = `Guest2`;
+        // this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
+        // this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
+        })();
          
