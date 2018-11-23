@@ -64,22 +64,23 @@
     }
     
     class PolyChatController {
-            constructor(polyChatModel, polyChatView){
+            constructor(polyChatView, polyChatModel){
             this.view = polyChatView;
             this.model = polyChatModel;
-            this.polyChatView.renderView(this.polyChatModel);
+            this.view.renderView(this.model);
             }
 
             updateChannelList(list) {
-            
+             // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
+             this.model.channelList = list;
             }
     }
 
     class PolyChatModel {
         constructor() {
             this.user = {
-                username = "Guest",
-                connectedChannel = []
+                username : "Guest",
+                connectedChannel : []
             };
             this.channelList = [];
             this.currentGroup = null;
@@ -94,6 +95,5 @@
 
         
         this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, "VarCestLet");
-        this.connectionHandler.subscribe("updateChannelsList", view.renderView.bind(view));
-        this.connectionHandler.subscribe("onMessage", view.renderView.bind(view));
+        this.connectionHandler.subscribe("updateChannelsList", channelsObserver.bind(controller));
         })();
