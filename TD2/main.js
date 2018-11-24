@@ -3,15 +3,18 @@
          this.usernameContainer = document.getElementById(`user`);
          this.chatContainer = document.getElementById(`chat-container`);
          this.groupContainer = document.getElementById(`group-container`);
+         this.onClickSendMessage = null;
         }
         
         renderView(polyChatModel) {
             this.renderChat(polyChatModel);
             this.renderGroups(polyChatModel);
+            
         }
         
         // Render the elements in the chat container
         renderChat(polyChatModel) {
+            let context = this;
             let buffer = ``;
             // chat header
             buffer +=   `<div class="container-header">
@@ -27,10 +30,14 @@
                                 <i class="far fa-thumbs-up" id="like-button"></i>
                                 <input id="message-input" name="message-input type="text" placeholder="Votre message ici"/>
                                 <div class="small-info-text" id="send-button">Envoyer</div>
-                            </div>`
+                            </div>`                         
             }
-                            
             this.chatContainer.innerHTML = buffer;
+            
+            const sendButton = this.chatContainer.querySelector("#send-button");
+            if(sendButton){
+                sendButton.addEventListener("click", context.onClickSendMessage);
+            }
         }
         
         // Render the elements in the group container
@@ -79,11 +86,22 @@
                 this.connectionHandler = null;
                 this.view = polyChatView;
                 this.model = polyChatModel;
+
+                this.view.onClickSendMessage = this.onClickSendMessage.bind(this);
+                
                 this.view.renderView(this.model);
                 this.setUsername();
                 this.initializeConnectionHandler();
         }
 
+        onClickSendMessage() {
+            debugger
+            let message = this.view.chatContainer.querySelector("#message-input").value;
+            if(message != "") {
+                this.connectionHandler.sendMessage(message, this.model);
+                this.view.chatContainer.querySelector("#message-input").value = "";
+            }   
+        }
         setUsername() {
             let username = prompt("Entrer un nom d'utilisateur", "");
             this.model.user.username = username;
@@ -94,6 +112,9 @@
              // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
              this.model.channelList = list;
              this.view.refreshGroups(this.model);
+             //Only to test if message were sending correctly.
+             this.model.currentGroup = this.model.channelList[0];
+             this.view.renderView(this.model);
         }
 
         initializeConnectionHandler() {

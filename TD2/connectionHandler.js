@@ -24,5 +24,10 @@ class ConnectionHandler {
     subscribe(event, func) {
         this.observables.get(event).push(func);
     }   
+    sendMessage(data, model) {
+        let msg = new Message("onMessage", model.currentGroup.id, data, model.user.username, Date.now());
+        debugger
+        this.webSocket.send(JSON.stringify(msg));
+    }
 
 }

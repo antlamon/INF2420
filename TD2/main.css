@@ -50,6 +50,10 @@ i {
     background: teal;
 }
 
+#like-button, #send-button {
+    cursor : pointer;
+}
+
 .small-info-text, .info-text, #like-button {
     color: white;
 }
