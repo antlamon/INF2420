@@ -4,11 +4,13 @@
          this.chatContainer = document.getElementById(`chat-container`);
          this.groupContainer = document.getElementById(`group-container`);
          this.onClickSendMessage = null;
+         this.changeCurrentGroup = null;
         }
         
         renderView(polyChatModel) {
             this.renderChat(polyChatModel);
             this.renderGroups(polyChatModel);
+            this.refreshGroups(polyChatModel);
             
         }
         
@@ -19,7 +21,7 @@
             // chat header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Groupe actif:</div>
-                            <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup : "Veuillez selectionner un groupe"}</div>
+                            <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup.name : "Veuillez selectionner un groupe"}</div>
                         </div>`;
             if (polyChatModel.currentGroup != null) {
                 // conversation container
@@ -43,6 +45,7 @@
         // Render the elements in the group container
         renderGroups(polyChatModel) {
             let buffer = ``;
+            let context = this;
             // group header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Liste des groupes:</div>
@@ -69,15 +72,24 @@
         }
 
         refreshGroups(polyChatModel) {
+            let context = this;
             let groupsContainer = document.getElementById("groups");
             let buffer = ``;
             for(let i = 0; i < polyChatModel.channelList.length; ++i) {
-                buffer +=   `<div class="group ${i % 2 ? "lightgray-background" : "smoke-background"}">
-                                <i class="${polyChatModel.channelList[i].name == "Général" ? "fas fa-star" : "fa fa-plus"} ${polyChatModel.channelList[i].joinStatus ? "orange-icon" : "teal-icon"}"></i>
-                                <div class="group-text">${polyChatModel.channelList[i].name == "Général" ? "Géneral (défaut)" : polyChatModel.channelList[i].name}</div>
+                buffer +=   `<div class="group  ${i % 2 ? "lightgray-background" : "smoke-background"}">
+                                <i id =channel-${i} class="channelConnector ${polyChatModel.channelList[i].name == "Général" ? "fas fa-star" : polyChatModel.channelList[i].joinStatus ? "fas fa-minus" :"fas fa-plus"} ${polyChatModel.channelList[i].joinStatus ? "orange-icon" : "teal-icon"}"></i>
+                                <div id =channel-${i} class="group-text channel">${polyChatModel.channelList[i].name == "Général" ? "Géneral (défaut)" : polyChatModel.channelList[i].name}</div>
                             </div>`;
             }
             groupsContainer.innerHTML = buffer;
+            const channels = this.groupContainer.querySelectorAll(".channel");
+            channels.forEach(channel => {
+                channel.addEventListener("click", context.changeCurrentGroup);
+            });
+            const channelConnectors = this.groupContainer.querySelectorAll(".channelConnector");
+            channelConnectors.forEach(channelConnector => {
+                channelConnector.addEventListener("click", context.toggleChannelConnection)
+            });
         }
     }
     
@@ -88,14 +100,19 @@
                 this.model = polyChatModel;
 
                 this.view.onClickSendMessage = this.onClickSendMessage.bind(this);
-                
+                this.view.changeCurrentGroup = this.changeCurrentGroup.bind(this);
+                this.view.toggleChannelConnection = this.toggleChannelConnection.bind(this);
+
+                this.model.currentGroup = this.model.channelList[0];
+
                 this.view.renderView(this.model);
                 this.setUsername();
                 this.initializeConnectionHandler();
+
         }
 
+        //Send a message to the current channel whenever the 
         onClickSendMessage() {
-            debugger
             let message = this.view.chatContainer.querySelector("#message-input").value;
             if(message != "") {
                 this.connectionHandler.sendMessage(message, this.model);
@@ -109,13 +126,42 @@
         }
 
         updateChannelList(list) {
-             // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
-             this.model.channelList = list;
-             this.view.refreshGroups(this.model);
-             //Only to test if message were sending correctly.
-             this.model.currentGroup = this.model.channelList[0];
-             this.view.renderView(this.model);
+            this.model.channelList.forEach(element => {
+                if(list.findIndex(c => c.id === element.id < 0)) {
+                    this.model.channelList.splice(element.id);
+                }
+            });
+
+            list.forEach(element => {
+                if(this.model.channelList.findIndex(c => c.id === element.id) < 0) {
+                    this.model.channelList.push(element);
+                }
+             });
+
+            this.view.renderView(this.model);
         }
+
+        changeCurrentGroup(event) { 
+            const [, index] = event.currentTarget.id.split("-");
+            if(!this.model.channelList[index].joinStatus) {
+                this.toggleChannelConnection(event);
+            }
+            this.model.currentGroup = this.model.channelList[index];
+            this.view.renderView(this.model);
+        }
+
+        toggleChannelConnection(event) {
+            const [, index] = event.currentTarget.id.split("-");
+            if(index != 0) {
+                let channel = this.model.channelList[index];
+                this.connectionHandler.sendChannelConnection(channel.joinStatus, channel.id, this.model);
+                //If we want to close the currentChannel, we change the currentChannel to "General"
+                if(this.model.currentGroup && channel.id == this.model.currentGroup.id && channel.joinStatus) this.model.currentGroup = this.model.channelList[0];
+                channel.joinStatus = !channel.joinStatus;
+                this.view.renderView(this.model);
+            }
+        }
+        
 
         initializeConnectionHandler() {
             this.connectionHandler = new ConnectionHandler(`ws://inter-host.ca:3000/`, this.model.user.username);

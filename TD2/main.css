@@ -50,7 +50,7 @@ i {
     background: teal;
 }
 
-#like-button, #send-button {
+.channel #like-button, #send-button {
     cursor : pointer;
 }
 
