@@ -25,11 +25,11 @@ class ConnectionHandler {
         this.observables.get(event).push(func);
     }   
     sendMessage(data, model) {
-        let msg = new Message("onMessage", model.currentGroup.id, data, model.user.username, Date.now());
+        let msg = new Message("onMessage", model.currentGroup.id, data, model.username, Date.now());
         this.webSocket.send(JSON.stringify(msg));
     }
     sendChannelConnection(isInConnection, id, model) {
-        let msg = new Message(isInConnection ? "onLeaveChannel" : "onJoinChannel", id, "", model.user.username, Date.now());
+        let msg = new Message(isInConnection ? "onLeaveChannel" : "onJoinChannel", id, "", model.username, Date.now());
         this.webSocket.send(JSON.stringify(msg));
     }
 
