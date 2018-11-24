@@ -19,25 +19,22 @@
             // chat header
             buffer +=   `<div class="container-header">
                             <div class="small-info-text">Groupe actif:</div>
-                            <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup : "Veuillez selectionner un groupe"}</div>
+                            <div class="info-text">${polyChatModel.currentGroup != null ? polyChatModel.currentGroup.name : "Général"}</div>
                         </div>`;
-            if (polyChatModel.currentGroup != null) {
-                // conversation container
-                buffer +=   `<div class="scrollable-container" id="conversation"></div>`
+            // conversation container
+            buffer +=   `<div class="scrollable-container" id="conversation"></div>`;
 
-                // message input container
-                buffer +=   `<div class="input-container">
-                                <i class="far fa-thumbs-up" id="like-button"></i>
-                                <input id="message-input" name="message-input type="text" placeholder="Votre message ici"/>
-                                <div class="small-info-text" id="send-button">Envoyer</div>
-                            </div>`                         
-            }
+            // message input container
+            buffer +=   `<div class="input-container">
+                            <i class="far fa-thumbs-up clickable" id="like-button"></i>
+                            <input id="message-input" name="message-input type="text" placeholder="Votre message ici"/>
+                            <div class="small-info-text clickable" id="send-button">Envoyer</div>
+                        </div>`;          
+
             this.chatContainer.innerHTML = buffer;
-            
+
             const sendButton = this.chatContainer.querySelector("#send-button");
-            if(sendButton){
-                sendButton.addEventListener("click", context.onClickSendMessage);
-            }
+            sendButton.addEventListener("click", context.onClickSendMessage);
         }
         
         // Render the elements in the group container
@@ -49,7 +46,7 @@
                             <div class="available-group-header">
                                 <div class="info-text">Groupes Disponibles</div>
                                 <div class="group-options">
-                                    <i class="fa fa-plus" id="add-group"></i>
+                                    <i class="fa fa-plus clickable" id="add-group"></i>
                                     <i class="fa fa-cog" id="group-options"></i>
                                 </div>
                             </div>
@@ -69,15 +66,22 @@
         }
 
         refreshGroups(polyChatModel) {
-            let groupsContainer = document.getElementById("groups");
+            if (polyChatModel.channelList == null) return;
+            
             let buffer = ``;
-            for(let i = 0; i < polyChatModel.channelList.length; ++i) {
+            // Channel general
+            buffer +=   `<div class="group "smoke-background"">
+                                <i class="fas fa-star orange-icon"></i>
+                                <div class="group-text">${polyChatModel.channelList[0].name} (défaut)</div>
+                            </div>`;
+            // Other channel
+            for(let i = 1; i < polyChatModel.channelList.length; ++i) {
                 buffer +=   `<div class="group ${i % 2 ? "lightgray-background" : "smoke-background"}">
-                                <i class="${polyChatModel.channelList[i].name == "Général" ? "fas fa-star" : "fa fa-plus"} ${polyChatModel.channelList[i].joinStatus ? "orange-icon" : "teal-icon"}"></i>
+                                <i class="${polyChatModel.channelList[i].joinStatus ? "fa fa-minus orange-icon" : "fa fa-plus teal-icon"} clickable"></i>
                                 <div class="group-text">${polyChatModel.channelList[i].name == "Général" ? "Géneral (défaut)" : polyChatModel.channelList[i].name}</div>
                             </div>`;
             }
-            groupsContainer.innerHTML = buffer;
+            this.groupContainer.querySelector("#groups").innerHTML = buffer;
         }
     }
     
@@ -89,9 +93,9 @@
 
                 this.view.onClickSendMessage = this.onClickSendMessage.bind(this);
                 
-                this.view.renderView(this.model);
                 this.setUsername();
                 this.initializeConnectionHandler();
+                this.view.renderView(this.model);
         }
 
         onClickSendMessage() {
@@ -102,6 +106,7 @@
                 this.view.chatContainer.querySelector("#message-input").value = "";
             }   
         }
+
         setUsername() {
             let username = prompt("Entrer un nom d'utilisateur", "");
             this.model.user.username = username;
@@ -111,10 +116,12 @@
         updateChannelList(list) {
              // Need to filter the list and add the missing item not a bonobo assignation like this. ONLY TEMP
              this.model.channelList = list;
+             if(this.model.currentGroup == null) {
+                 this.model.currentGroup = list[0];
+                 this.model.user.connectedChannel.push(list[0]);
+                 this.view.renderChat(this.model);
+             }
              this.view.refreshGroups(this.model);
-             //Only to test if message were sending correctly.
-             this.model.currentGroup = this.model.channelList[0];
-             this.view.renderView(this.model);
         }
 
         initializeConnectionHandler() {
@@ -126,7 +133,7 @@
     class PolyChatModel {
         constructor() {
             this.user = {
-                username : "Guest",
+                username : null,
                 connectedChannel : []
             };
             this.channelList = [];
