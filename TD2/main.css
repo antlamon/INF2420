@@ -10,6 +10,7 @@ body {
     margin: 0px 8px;
     min-width: 1100px;
     min-height: 800px;
+    font-family: "Fira Sans","Trebuchet MS","Helvetica Neue","Arial",sans-serif;
 }
 
 .header {
@@ -21,6 +22,22 @@ body {
 
 .header-option {
     display: flex;
+}
+
+.notification-bell {
+    color: #FF4500;
+}
+
+#user-option:hover, .notif-bell:hover, #add-group:hover, #group-options:hover {
+    color : #FF4500;
+}
+
+.mute-bell {
+    color : #FF4500;
+}
+
+.mute-bell:hover {
+    color: black
 }
 
 i {
@@ -91,6 +108,8 @@ i {
 .scrollable-container {
     flex: 1;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #like-button {
@@ -100,6 +119,7 @@ i {
 
 #message-input {
     flex: 1;
+    padding: 0px 8px;
 }
 
 .input-container {
@@ -133,9 +153,63 @@ i {
 }
 
 .orange-icon {
-    color: orangered;
+    color: #FF4500;
 }
 
 .clickable {
     cursor: pointer;
+}
+
+.message {
+    padding: 10px;
+    width: 40%;
+}
+
+.own-message {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.admin-message {
+    width: 60%;
+    padding: 10px;
+    align-self: center;
+    text-align: center;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.other-message {
+    align-self: flex-start;
+    text-align: left;
+}
+
+.text-message {
+    border-radius: 10px;
+    padding: 8px;
+    overflow-wrap: break-word;
+}
+
+.own-message > .text-message {
+    background: rgb(0, 119, 255); 
+    color: white;   
+}
+
+.other-message > .text-message {
+    background: lightgray;
+}
+
+.date {
+    padding: 0px 15px;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.sender {
+    color: rgb(150, 150, 150);
+}
+
+.notif-text {
+    color: #FF4500;
+    font-weight: bold;
 }

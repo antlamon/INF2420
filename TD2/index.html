@@ -8,7 +8,7 @@
     <meta name="description" content="Poly chat">
     <meta name="author" content="Antoine Antoine">
 
-    <link rel="icon" href="#"/>
+    <link rel="icon" href="icon.png"/>
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
@@ -31,14 +31,7 @@
                 </g>
             </g>
         </svg>
-        <div class="header-option">
-            <div id="user-option">
-                <i class="far fa-user"></i>
-                <div id="user"></div>
-            </div>
-            <i class="far fa-bell"></i>
-            <i class="fa fa-globe"></i>
-            <i class="fa fa-cog" id="options"></i>
+        <div class="header-option" id="header-options">
         </div>
     </div>
     <div class="container" id="main-container">
@@ -52,4 +45,5 @@
 <script src="messagesObserver.js"></script>
 <script src="connectionHandler.js"></script>
 <script src="main.js"></script>
+<script src="sanitize-html.min.js"></script>
 </html>
