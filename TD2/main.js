@@ -3,6 +3,7 @@
          this.chatContainer = document.getElementById(`chat-container`);
          this.groupContainer = document.getElementById(`group-container`);
          this.headerOptionsContainer = document.getElementById(`header-options`);
+         this.modalContainer = document.getElementById(`modal-container`);
          this.onClickSendMessage = null;
          this.changeCurrentGroup = null;
          this.onClickAddChannel = null;
@@ -16,7 +17,7 @@
             this.renderChat(polyChatModel);
             this.renderGroups(polyChatModel);
         }
-
+        
         renderHeaderOptions(polyChatModel){
             let buffer = ``;
             buffer += ` <div class="clickable" id="user-option">
@@ -28,7 +29,7 @@
                         <i class="fa fa-cog" id="options"></i>`;
             this.headerOptionsContainer.innerHTML = buffer;
             const user = document.querySelector("#user-option");
-            user.addEventListener("click", this.changeUsername);
+            user.addEventListener("click", this.renderModalUsername.bind(this));
             const bell = document.querySelector(`#bell`)
             bell.addEventListener("click", this.toggleMuteApplication)
         }
@@ -180,6 +181,40 @@
                 channelConnector.addEventListener("click", context.toggleChannelConnection)
             });
         }
+        renderModalUsername() {
+            let buffer = ``;
+            buffer += ` <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="close">&times;</span>
+                                <h3>Polychat</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class = "name-input-header">Choisit ton nom d'utilisateur :</div>
+                                <input id="name-input" name="name-input type="text"/>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="confirme-button small-info-text clickable" id="confirme-button">Confirmer</div>
+                            </div>
+                        </div>`;
+            this.modalContainer.innerHTML = buffer;
+
+            let closingButton = document.getElementsByClassName("close")[0];
+            closingButton.onclick = function() {
+                this.modalContainer.style.display = "none";
+                this.modalContainer.innerHTML = ``;
+            }.bind(this);
+
+            window.onclick = function(event) {
+                if (event.target == this.modalContainer) {
+                    this.modalContainer.style.display = "none";
+                    this.modalContainer.innerHTML = ``;
+                }
+            }.bind(this);
+            this.modalContainer.style.display = "block";
+            
+            let confirmButton = this.modalContainer.querySelector(`#confirme-button`);
+            confirmButton.addEventListener("click", this.changeUsername)
+        }
     }
     
     class PolyChatController {
@@ -271,11 +306,16 @@
 
         changeUsername(event) {
             this.model = new PolyChatModel();
-            let username = prompt("Entrer un nom d'utilisateur", "");
-            this.model.username = username;
-            this.connectionHandler.disconnect();
-            this.initializeConnectionHandler();
-            this.view.renderView(this.model);
+            let input = this.view.modalContainer.querySelector(`#name-input`).value;
+            if(input != "")
+            {
+                this.model.username = input ;
+                this.view.modalContainer.style.display = "none";
+                this.view.modalContainer.innerHTML = ``;
+                this.connectionHandler.disconnect();
+                this.initializeConnectionHandler();
+                this.view.renderView(this.model);
+            }        
         }
         
         toggleChannelConnection(event) {
