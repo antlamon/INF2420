@@ -20,6 +20,16 @@ class ConnectionHandler {
             let data = JSON.parse(message.data);
             this.notify(data.eventType, data);
         }.bind(this);
+
+        let connectionObserver = setInterval(function() {
+            if(this.webSocket.readyState == 1) {
+                // Everything's working properly
+            } else if (this.webSocket.readyState == 0) {
+                alert("Waiting for the server.");
+            } else {
+                alert(`An error occured with the server, try refreshing the page.`);
+            }
+        }.bind(this), 5000);
     }
 
     // Disconnects the websocket from the server.

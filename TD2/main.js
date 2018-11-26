@@ -443,10 +443,12 @@ class PolyChatController {
 
     // Changes the current group assigned to the user.                            
     changeCurrentGroup(event) { 
-        const [, index] = event.currentTarget.id.split("-");
+        let [, index] = event.currentTarget.id.split("-");
         // Gets the message on a channel if the user is joining it.
         if(!this.model.channelList[index].joinStatus) {
+            let channelId = this.model.channelList[index].id;
             this.toggleChannelConnection(event);
+            index = this.model.channelList.findIndex(c => c.id === channelId);
             this.connectionHandler.sendOnGetChannel(this.model.channelList[index].id);
         }
         this.model.currentGroupIndex = index;
@@ -540,7 +542,7 @@ class PolyChatController {
         this.connectionHandler.subscribe("onGetChannel", onGetChannelObserver.bind(this));
         this.connectionHandler.subscribe("onMessage", onMessage.bind(this));
         this.connectionHandler.subscribe("onError", onErrorObserver.bind(this));
-        this.connectionHandler.connect(`ws://inter-host.ca:3000/`, this.model.username);
+        this.connectionHandler.connect(`ws://log2420-nginx.info.polymtl.ca/`, this.model.username);
     }
 }
 
