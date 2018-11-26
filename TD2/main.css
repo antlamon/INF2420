@@ -25,19 +25,17 @@ body {
 }
 
 .notification-bell {
+    font-size: larger;
     color: #FF4500;
 }
 
-#user-option:hover, .notif-bell:hover, #add-group:hover, #group-options:hover {
-    color : #FF4500;
+#notif-bell {
+    color: black;
+    text-align: center;
 }
 
-.mute-bell {
+#user-option:hover, #add-group:hover, #group-options:hover, #speaker:hover, .notif-options:hover, #options:hover, #send-button:hover, #like-button:hover {
     color : #FF4500;
-}
-
-.mute-bell:hover {
-    color: black
 }
 
 i {
@@ -53,7 +51,7 @@ i {
 }
 
 #user {
-    color: green;
+    color: teal;
 }
 
 .container {
@@ -128,6 +126,7 @@ i {
 
 .group {
     display: flex;
+    flex: none;
     padding: 10px 20px;
     align-items: center;
     margin: 0px 20px;
@@ -212,6 +211,7 @@ i {
 .notif-text {
     color: #FF4500;
     font-weight: bold;
+    text-align: center;
 }
 
 /*This is for the modals*/
@@ -226,7 +226,7 @@ i {
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.8);
 }
 
 .modal-content {
@@ -236,7 +236,7 @@ i {
     padding: 0;
     border: 1px solid #888;
     width: 40%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.2);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -260,8 +260,7 @@ i {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -274,20 +273,28 @@ i {
 }
 
 .modal-body {
-    padding: 2px 16px;
+    padding:  10px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.name-input-header {
+    padding-bottom: 4px;
+}
+
+#name-input {
+    text-align: center;
+    width: 50%;
 }
 
 .modal-footer {
-    padding: 2px 16px;
     background-color: teal;
     color: white;
+    display: flex;
+    justify-content: center;
 }
 
-.confirme-button {
-    text-align: right;
-}
-#name-input, #name-input-header {
-    align-self: center;
+.confirm-button {
     text-align: center;
 }
