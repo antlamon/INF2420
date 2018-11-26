@@ -491,6 +491,7 @@ class PolyChatController {
                 this.model.currentGroupIndex = 0;
                 this.view.refreshCurrentGroup(this.model);
                 this.view.renderConversation(this.model);
+                this.model.channelList[0].notification = 0;
             }
             channel.joinStatus = !channel.joinStatus;
             this.model.channelList[index].notification = 0;
